@@ -1,24 +1,27 @@
 import React, { useContext } from 'react';
-
+import { List, ListItem, ListItemAvatar,Avatar} from '../../common/components';
+import { ImageIcon} from '../../common/icons';
 import { CartContext } from '../../contexts';
-
 import { CartItem } from './CartItem';
-
-import './Cart.css';
 
 export const Cart = () => {
   const { cart, removeProductFromCart } = useContext(CartContext);
 
   return (
-    <ul>
+    <List sx={{minWidth: 360}}>
       {cart.map((cartItem) => (
-        <li key={cartItem.id}>
+        <ListItem key={cartItem.id}>
+          <ListItemAvatar>
+          <Avatar>
+            <ImageIcon />
+          </Avatar>
+        </ListItemAvatar>
           <CartItem
             cartItem={cartItem}
             removeProductFromCart={removeProductFromCart}
           />
-        </li>
+        </ListItem>
       ))}
-    </ul>
+    </List>
   );
 };

@@ -1,13 +1,20 @@
+import { useContext } from 'react';
+import {Box, Button, Stack, Typography} from '../../common/components';
 import { Cart } from '../cart';
+import { CartContext } from '../../contexts';
 
 export function RightPanel() {
+const {cart} = useContext(CartContext);
+
   return (
-    <div>
-      <h2>Cart</h2>
-      <button className="b1">CheckOut</button>
-      <div>
+    <Stack>
+      <Typography variant='h5'>Cart</Typography>
+      <Box>
+      <Button variant="contained" disabled={!cart.length}>CheckOut</Button>
+      </Box>
+      <Box>
         <Cart />
-      </div>
-    </div>
+      </Box>
+    </Stack>
   );
 }
