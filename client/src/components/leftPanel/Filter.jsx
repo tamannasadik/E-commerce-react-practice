@@ -1,3 +1,4 @@
+import {Box, Button} from '../../common/components';
 export function Filter() {
   const categories = [
     'Laptops',
@@ -12,12 +13,13 @@ export function Filter() {
   ];
 
   return (
-    <div>
+    // 
+    <Box sx={{display: 'flex', gap:1, flexWrap:'wrap'}}>
       {categories.map((category, index) => (
-        <button className="b2" key={index}>
+        <Button key={index}>
           {category}
-        </button>
+        </Button>
       ))}
-    </div>
+    </Box>
   );
 }

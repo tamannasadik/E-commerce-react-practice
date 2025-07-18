@@ -76,25 +76,26 @@ let products = [
   },
 ];
 
-// Get all products
+// ✅ Fixed: Get all products with optional category filter
 app.get('/api/products', (req, res) => {
   const { category } = req.query;
   let filters = [];
+
   if (typeof category === 'string') {
     filters = [category.toLowerCase()];
   } else if (Array.isArray(category) && category.length) {
-    filters = category.map((category) => category.toLowerCase());
+    filters = category.map((c) => c.toLowerCase());
   }
+
   if (!filters.length) {
-    res.json(products);
+    return res.json(products); // ✅ Early return
   }
-  res.json(
-    products.filter((product) =>
-      product.categories.some((category) =>
-        filters.includes(category.toLowerCase())
-      )
-    )
+
+  const filteredProducts = products.filter((product) =>
+    product.categories.some((c) => filters.includes(c.toLowerCase()))
   );
+
+  res.json(filteredProducts);
 });
 
 // Get a product by ID
@@ -138,8 +139,9 @@ app.delete('/api/products/:id', (req, res) => {
   const productIndex = products.findIndex(
     (p) => p.id === parseInt(req.params.id)
   );
-  if (productIndex === -1)
+  if (productIndex === -1) {
     return res.status(404).json({ message: 'Product not found' });
+  }
 
   const deletedProduct = products.splice(productIndex, 1);
   res.json(deletedProduct);
@@ -158,13 +160,13 @@ app.get('/api/search', (req, res) => {
 
   if (vendor) {
     filteredProducts = filteredProducts.filter((product) =>
-      product.vendor.toLowerCase().includes(vendor.toLowerCase())
+      product.vendor?.toLowerCase().includes(vendor.toLowerCase())
     );
   }
 
   if (category) {
     filteredProducts = filteredProducts.filter((product) =>
-      product.category.toLowerCase().includes(category.toLowerCase())
+      product.category?.toLowerCase().includes(category.toLowerCase())
     );
   }
 
@@ -175,3 +177,6 @@ app.get('/api/search', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
+
+
+

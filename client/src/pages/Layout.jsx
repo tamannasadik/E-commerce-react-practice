@@ -1,12 +1,12 @@
 import { Outlet } from 'react-router-dom';
-
+import {Stack} from '../common/components';
 import { AppBar } from '../components';
 
 export const Layout = () => {
   return (
-    <div className="layout">
+    <Stack spacing={4}>
       <AppBar />
       <Outlet />
-    </div>
+    </Stack>
   );
 };
